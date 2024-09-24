@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, ScrollView, ActivityIndicator } from "react-native";
 import { useLocalSearchParams } from "expo-router";
+import { WebView } from "react-native-webview";
 
-import { fetchMovieDetails, fetchTVShowDetails } from "../../utils/api";
+import { fetchMovieDetails, fetchTVShowDetails, fetchMovieTrailer, fetchTVShowTrailer } from "../../utils/api";
 
 const Detail = () => {
     const { movieId, tvShowId } = useLocalSearchParams();
@@ -10,6 +11,7 @@ const Detail = () => {
     const isTVShow = Boolean(tvShowId);
 
     const [details, setDetails] = useState(null);
+    const [trailerId, setTrailerId] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -18,9 +20,15 @@ const Detail = () => {
                 if (isMovie) {
                     const movie = await fetchMovieDetails(movieId);
                     setDetails(movie);
+
+                    const movieTrailerId = await fetchMovieTrailer(movieId);
+                    setTrailerId(movieTrailerId);
                 } else if (isTVShow) {
                     const tvShow = await fetchTVShowDetails(tvShowId);
                     setDetails(tvShow);
+
+                    const tvShowTrailerId = await fetchTVShowTrailer(tvShowId);
+                    setTrailerId(tvShowTrailerId);
                 }
             } catch (error) {
                 console.error("Failed to load data: ", error);
@@ -46,6 +54,21 @@ const Detail = () => {
 
     return (
         <ScrollView style={styles.container}>
+            {trailerId ? (
+                <View style={styles.videoContainer}>
+                    <WebView
+                        source={{ uri: `https://www.youtube.com/embed/${trailerId}` }}
+                        style={styles.video}
+                        javaScriptEnabled={true}
+                        domStorageEnabled={true}
+                        allowsInlineMediaPlayback={true}
+                        onError={(error) => console.error("Failed to load video: ", error)}
+                    />
+                </View>
+            ) : (
+                <Text style={styles.noTrailerText}>No Trailer Available</Text>
+            )}
+
             <View style={styles.detailsContainer}>
                 <Text style={styles.title}>{details.title || details.name}</Text>
                 <Text style={styles.sectionTitle}>Overview</Text>
