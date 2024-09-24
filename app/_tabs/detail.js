@@ -6,6 +6,8 @@ import { WebView } from "react-native-webview";
 import MovieCard from "../components/MovieCard";
 import TVShowCard from "../components/TVShowCard";
 import Carousel from "../components/Carousel";
+import { useUser } from "../../context/UserContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import {
     fetchMovieDetails,
@@ -25,6 +27,7 @@ const Detail = () => {
     const [details, setDetails] = useState(null);
     const [trailerId, setTrailerId] = useState(null);
     const [similar, setSimilar] = useState([]);
+    const { watched, toWatch, setWatched, setToWatch } = useUser();
 
     const [loading, setLoading] = useState(true);
 
@@ -60,12 +63,22 @@ const Detail = () => {
         loadData();
     }, [movieId, tvShowId]);
 
-    const handleMarkAsWatched = () => {
-        console.log("Marked As Watched");
+    const handleMarkAsWatched = async () => {
+        if (details) {
+            const newWatched = [...watched, details];
+            setWatched(newWatched);
+            await AsyncStorage.setItem("watched", JSON.stringify(newWatched));
+            console.log(`${details.title || details.name} added to watched list`);
+        }
     };
 
-    const handleMarkAsToWatch = () => {
-        console.log("Marked As To Watch");
+    const handleMarkAsToWatch = async () => {
+        if (details) {
+            const newToWatch = [...toWatch, details];
+            setToWatch(newToWatch);
+            await AsyncStorage.setItem("toWatch", JSON.stringify(newToWatch));
+            console.log(`${details.title || details.name} added to to watch list`);
+        }
     };
 
     if (loading) {
