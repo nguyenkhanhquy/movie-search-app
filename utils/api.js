@@ -117,3 +117,25 @@ export const fetchTVShowTrailer = async (tvShowId) => {
         throw error;
     }
 };
+
+// Fetching Similar Movies
+export const fetchSimilarMovies = async (movieId) => {
+    try {
+        const response = await api.get(`/movie/${movieId}/similar`);
+        return response.data.results;
+    } catch (error) {
+        console.error("Error Fetching Similar Movies: ", error);
+        return [];
+    }
+};
+
+// Fetching Similar TVShows
+export const fetchSimilarTVShows = async (tvShowId) => {
+    try {
+        const response = await api.get(`/tv/${tvShowId}/similar`);
+        return response.data.results;
+    } catch (error) {
+        console.error("Error Fetching Similar TVShows: ", error);
+        return [];
+    }
+};
