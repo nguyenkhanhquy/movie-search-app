@@ -12,7 +12,7 @@ const TVShowCard = ({ show, onPress }) => {
                         style={styles.cover}
                     />
                     <Card.Content style={styles.content}>
-                        <Title style={styles.title}>{show.title}</Title>
+                        <Title style={styles.title}>{show.name}</Title>
                         <Paragraph style={styles.paragraph}>Rating: {show.vote_average}</Paragraph>
                     </Card.Content>
                 </Card>
