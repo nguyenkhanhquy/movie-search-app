@@ -33,12 +33,7 @@ const Detail = () => {
     }, [movieId, tvShowId]);
 
     if (loading) {
-        return (
-            <View style={styles.loadingContainer}>
-                <ActivityIndicator size="large" color="#0000ff" />
-                <Text style={styles.text}>Loading...</Text>
-            </View>
-        );
+        return <ActivityIndicator size="large" style={styles.loadingContainer} />;
     }
 
     if (!details) {
