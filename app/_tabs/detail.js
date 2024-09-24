@@ -1,17 +1,31 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, ScrollView, ActivityIndicator } from "react-native";
-import { useLocalSearchParams } from "expo-router";
+import { View, Text, StyleSheet, ScrollView, ActivityIndicator, TouchableOpacity } from "react-native";
+import { useRouter, useLocalSearchParams } from "expo-router";
 import { WebView } from "react-native-webview";
 
-import { fetchMovieDetails, fetchTVShowDetails, fetchMovieTrailer, fetchTVShowTrailer } from "../../utils/api";
+import MovieCard from "../components/MovieCard";
+import TVShowCard from "../components/TVShowCard";
+import Carousel from "../components/Carousel";
+
+import {
+    fetchMovieDetails,
+    fetchTVShowDetails,
+    fetchMovieTrailer,
+    fetchTVShowTrailer,
+    fetchSimilarMovies,
+    fetchSimilarTVShows,
+} from "../../utils/api";
 
 const Detail = () => {
+    const router = useRouter();
     const { movieId, tvShowId } = useLocalSearchParams();
     const isMovie = Boolean(movieId);
     const isTVShow = Boolean(tvShowId);
 
     const [details, setDetails] = useState(null);
     const [trailerId, setTrailerId] = useState(null);
+    const [similar, setSimilar] = useState([]);
+
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -23,12 +37,18 @@ const Detail = () => {
 
                     const movieTrailerId = await fetchMovieTrailer(movieId);
                     setTrailerId(movieTrailerId);
+
+                    const similarMovies = await fetchSimilarMovies(movieId);
+                    setSimilar(similarMovies);
                 } else if (isTVShow) {
                     const tvShow = await fetchTVShowDetails(tvShowId);
                     setDetails(tvShow);
 
                     const tvShowTrailerId = await fetchTVShowTrailer(tvShowId);
                     setTrailerId(tvShowTrailerId);
+
+                    const similarTVShows = await fetchSimilarTVShows(tvShowId);
+                    setSimilar(similarTVShows);
                 }
             } catch (error) {
                 console.error("Failed to load data: ", error);
@@ -39,6 +59,14 @@ const Detail = () => {
 
         loadData();
     }, [movieId, tvShowId]);
+
+    const handleMarkAsWatched = () => {
+        console.log("Marked As Watched");
+    };
+
+    const handleMarkAsToWatch = () => {
+        console.log("Marked As To Watch");
+    };
 
     if (loading) {
         return <ActivityIndicator size="large" style={styles.loadingContainer} />;
@@ -89,6 +117,30 @@ const Detail = () => {
                 <Text style={styles.text}>{details.budget ? `$${details.budget.toLocaleString()}` : "N/A"}</Text>
                 <Text style={styles.sectionTitle}>Revenue</Text>
                 <Text style={styles.text}>{details.revenue ? `$${details.revenue.toLocaleString()}` : "N/A"}</Text>
+            </View>
+
+            <View style={styles.buttonContainer}>
+                <TouchableOpacity style={styles.button} onPress={handleMarkAsWatched}>
+                    <Text style={styles.buttonText}>Mark As Watched</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.button} onPress={handleMarkAsToWatch}>
+                    <Text style={styles.buttonText}>Mark As To Watch</Text>
+                </TouchableOpacity>
+            </View>
+
+            <View style={styles.similarContainer}>
+                <Text style={styles.similarTitle}>Similar {isMovie ? "Movies" : "TV Shows"}</Text>
+                <Carousel
+                    data={similar}
+                    renderItem={({ item }) =>
+                        movieId ? (
+                            <MovieCard movie={item} onPress={() => router.push(`/detail?movieId=${item.id}`)} />
+                        ) : (
+                            <TVShowCard show={item} onPress={() => router.push(`/detail?tvShowId=${item.id}`)} />
+                        )
+                    }
+                />
             </View>
         </ScrollView>
     );
