@@ -83,3 +83,37 @@ export const fetchTVShowDetails = async (tvShowId) => {
         throw error;
     }
 };
+
+// Fetching Movie Trailer
+export const fetchMovieTrailer = async (movieId) => {
+    try {
+        const response = await api.get(`/movie/${movieId}/videos`, {
+            params: {
+                language: "en-US",
+            },
+        });
+
+        const trailers = response.data.results.filter((video) => video.site === "YouTube" && video.type === "Trailer");
+        return trailers.length ? trailers[0].key : null;
+    } catch (error) {
+        console.error("Error Fetching Movie Trailer: ", error);
+        throw error;
+    }
+};
+
+// Fetching TVShow Trailer
+export const fetchTVShowTrailer = async (tvShowId) => {
+    try {
+        const response = await api.get(`/tv/${tvShowId}/videos`, {
+            params: {
+                language: "en-US",
+            },
+        });
+
+        const trailers = response.data.results.filter((video) => video.site === "YouTube" && video.type === "Trailer");
+        return trailers.length ? trailers[0].key : null;
+    } catch (error) {
+        console.error("Error Fetching TVShow Trailer: ", error);
+        throw error;
+    }
+};
