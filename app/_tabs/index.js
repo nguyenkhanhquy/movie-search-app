@@ -1,23 +1,26 @@
 import React from "react";
-import { View, Text, StyleSheet, Dimensions } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import Carousel from "../components/Carousel";
+import MovieCard from "../components/MovieCard";
 
 const sampleData = [
-    { id: "1", title: "Movie 1" },
-    { id: "2", title: "Movie 2" },
-    { id: "3", title: "Movie 3" },
-    { id: "4", title: "Movie 4" },
-    { id: "5", title: "Movie 5" },
+    { id: "1", title: "Inception", poster_path: "/9gk7adHYeDvHkCSEqAvQNLV5Uge.jpg", vote_average: 8.8 },
+    { id: "2", title: "Interstellar", poster_path: "/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg", vote_average: 8.6 },
+    { id: "3", title: "The Dark Knight", poster_path: "/qJ2tW6WMUDux911r6m7haRef0WH.jpg", vote_average: 9.0 },
+    { id: "4", title: "Pulp Fiction", poster_path: "/dM2w364MScsjFf8pfMbaWUcWrR.jpg", vote_average: 8.9 },
+    { id: "5", title: "The Shawshank Redemption", poster_path: "/q6y0Go1tsGEsmtFryD0Jo3dEmqu.jpg", vote_average: 9.3 },
 ];
-const renderItem = ({ item }) => {
-    return (
-        <View style={styles.item}>
-            <Text style={styles.itemText}>{item.title}</Text>
-        </View>
-    );
-};
 
 const Home = () => {
+    const renderItem = ({ item }) => (
+        <MovieCard
+            movie={item}
+            onPress={() => {
+                console.log(`Pressed ${item.title} Card`);
+            }}
+        />
+    );
+
     return (
         <View style={styles.container}>
             <Text style={styles.headerText}>Home Screen</Text>
@@ -29,28 +32,14 @@ const Home = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#fff",
         alignItems: "center",
         justifyContent: "center",
+        padding: 16,
     },
     headerText: {
         fontSize: 24,
         fontWeight: "bold",
         padding: 16,
-    },
-    item: {
-        width: Dimensions.get("window").width * 0.75,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "#e0e0e0",
-        borderRadius: 8,
-        padding: 20,
-        marginHorizontal: 8,
-        height: 180,
-    },
-    itemText: {
-        fontSize: 18,
-        fontWeight: "bold",
     },
 });
 

@@ -1,18 +1,19 @@
 import React from "react";
-import { View, FlatList, StyleSheet } from "react-native";
-import { Dimensions } from "react-native";
+import { View, FlatList, StyleSheet, Dimensions } from "react-native";
 
 const Carousel = ({ data, renderItem }) => {
     const { width } = Dimensions.get("window");
+    const cardWidth = width * 0.75;
+
     return (
         <View style={styles.carouselContainer}>
             <FlatList
                 data={data}
                 renderItem={renderItem}
-                keyExtracter={(item) => item.id.toString()}
+                keyExtractor={(item) => item.id.toString()}
                 horizontal
-                showHorizontalScrollIndicator={false}
-                snapToInterval={width * 0.75}
+                showsHorizontalScrollIndicator={false}
+                snapToInterval={cardWidth}
                 snapToAlignment="start"
                 decelerationRate="fast"
             />
