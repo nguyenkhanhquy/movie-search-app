@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { Text, StyleSheet, ScrollView } from "react-native";
 import Carousel from "../components/Carousel";
 import MovieCard from "../components/MovieCard";
 import TVShowCard from "../components/TVShowCard";
@@ -45,29 +45,36 @@ const Home = () => {
     );
 
     return (
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
             <Text style={styles.headerText}>Movie Search App</Text>
 
-            <Text>Movies</Text>
+            <Text style={styles.sectionText}>Movies</Text>
             <Carousel data={sampleMovieData} renderItem={renderMovieItem} />
 
-            <Text>TV Shows</Text>
+            <Text style={styles.sectionText}>TV Shows</Text>
             <Carousel data={sampleShowData} renderItem={renderShowItem} />
-        </View>
+        </ScrollView>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
         padding: 16,
+        backgroundColor: "#ffffff",
     },
     headerText: {
         fontSize: 24,
         fontWeight: "bold",
-        padding: 16,
+        marginTop: 20,
+        marginBottom: 20,
+    },
+    sectionText: {
+        fontSize: 20,
+        fontWeight: "bold",
+        marginTop: 20,
+        marginBottom: 10,
+        textAlign: "center",
     },
 });
 
