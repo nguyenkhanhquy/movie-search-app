@@ -14,7 +14,6 @@ const api = axios.create({
 export const fetchPopularMovies = async () => {
     try {
         const response = await api.get("/movie/popular");
-        console.log("Popular Movies: ", response.data.results);
         return response.data.results;
     } catch (error) {
         console.error("Error Fetching Popular Movies: ", error);
@@ -37,7 +36,6 @@ export const fetchPopularTVShows = async () => {
 export const fetchRecommendMovies = async () => {
     try {
         const response = await api.get("/movie/top_rated");
-        console.log("Popular Movies: ", response.data.results);
         return response.data.results;
     } catch (error) {
         console.error("Error Fetching Recommend Movies: ", error);
@@ -49,10 +47,39 @@ export const fetchRecommendMovies = async () => {
 export const fetchRecommendTVShows = async () => {
     try {
         const response = await api.get("/tv/top_rated");
-        console.log("Popular Movies: ", response.data.results);
         return response.data.results;
     } catch (error) {
         console.error("Error Fetching Recommend TVShows: ", error);
+        return [];
+    }
+};
+
+// Fetching Movie Details
+export const fetchMovieDetails = async (movieId) => {
+    try {
+        const response = await api.get(`/movie/${movieId}`, {
+            params: {
+                append_to_response: "videos",
+            },
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Error Fetching Movie Details: ", error);
+        throw error;
+    }
+};
+
+// Fetching TVShow Details
+export const fetchTVShowDetails = async (tvShowId) => {
+    try {
+        const response = await api.get(`/tv/${tvShowId}`, {
+            params: {
+                append_to_response: "videos",
+            },
+        });
+        return response.data.results;
+    } catch (error) {
+        console.error("Error Fetching TVShow Details: ", error);
         return [];
     }
 };
