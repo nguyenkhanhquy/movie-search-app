@@ -77,9 +77,9 @@ export const fetchTVShowDetails = async (tvShowId) => {
                 append_to_response: "videos",
             },
         });
-        return response.data.results;
+        return response.data;
     } catch (error) {
         console.error("Error Fetching TVShow Details: ", error);
-        return [];
+        throw error;
     }
 };
