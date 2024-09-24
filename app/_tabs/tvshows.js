@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Text, StyleSheet, ScrollView } from "react-native";
+import { useRouter } from "expo-router";
+
 import Carousel from "../components/Carousel";
 import TVShowCard from "../components/TVShowCard";
 
 import { fetchRecommendTVShows, fetchPopularTVShows } from "../../utils/api";
 
 const TVshows = () => {
+    const router = useRouter();
     const [recommendTVShows, setRecommendTVShows] = useState([]);
     const [popularTVShows, setPopularTVShows] = useState([]);
 
@@ -26,12 +29,7 @@ const TVshows = () => {
     }, []);
 
     const renderShowItem = ({ item }) => (
-        <TVShowCard
-            show={item}
-            onPress={() => {
-                console.log(`Pressed ${item.name} Card`);
-            }}
-        />
+        <TVShowCard show={item} onPress={() => router.push(`/detail?tvShowId=${item.id}`)} />
     );
 
     return (

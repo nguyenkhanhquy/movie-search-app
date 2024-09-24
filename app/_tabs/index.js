@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Text, StyleSheet, ScrollView } from "react-native";
+import { useRouter } from "expo-router";
+
 import Carousel from "../components/Carousel";
 import MovieCard from "../components/MovieCard";
 import TVShowCard from "../components/TVShowCard";
@@ -7,6 +9,7 @@ import TVShowCard from "../components/TVShowCard";
 import { fetchPopularMovies, fetchPopularTVShows } from "../../utils/api";
 
 const Home = () => {
+    const router = useRouter();
     const [popularMovies, setPopularMovies] = useState([]);
     const [popularTVShows, setPopularTVShows] = useState([]);
 
@@ -27,21 +30,11 @@ const Home = () => {
     }, []);
 
     const renderMovieItem = ({ item }) => (
-        <MovieCard
-            movie={item}
-            onPress={() => {
-                console.log(`Pressed ${item.title} Card`);
-            }}
-        />
+        <MovieCard movie={item} onPress={() => router.push(`/detail?movieId=${item.id}`)} />
     );
 
     const renderShowItem = ({ item }) => (
-        <TVShowCard
-            show={item}
-            onPress={() => {
-                console.log(`Pressed ${item.name} Card`);
-            }}
-        />
+        <TVShowCard show={item} onPress={() => router.push(`/detail?tvShowId=${item.id}`)} />
     );
 
     return (

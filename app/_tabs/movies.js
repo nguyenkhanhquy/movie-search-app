@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Text, StyleSheet, ScrollView } from "react-native";
+import { useRouter } from "expo-router";
+
 import Carousel from "../components/Carousel";
 import MovieCard from "../components/MovieCard";
 
 import { fetchRecommendMovies, fetchPopularMovies } from "../../utils/api";
 
 const Movies = () => {
+    const router = useRouter();
     const [recommendMovies, setRecommendMovies] = useState([]);
     const [popularMovies, setPopularMovies] = useState([]);
 
@@ -26,12 +29,7 @@ const Movies = () => {
     }, []);
 
     const renderMovieItem = ({ item }) => (
-        <MovieCard
-            movie={item}
-            onPress={() => {
-                console.log(`Pressed ${item.title} Card`);
-            }}
-        />
+        <MovieCard movie={item} onPress={() => router.push(`/detail?movieId=${item.id}`)} />
     );
 
     return (
