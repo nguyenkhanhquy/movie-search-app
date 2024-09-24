@@ -32,6 +32,7 @@ const styles = StyleSheet.create({
         elevation: 3,
     },
     card: {
+        flex: 1,
         borderRadius: 8,
         width: "100%",
         height: 300,

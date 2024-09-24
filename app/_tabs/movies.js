@@ -1,20 +1,70 @@
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React, { useState, useEffect } from "react";
+import { Text, StyleSheet, ScrollView } from "react-native";
+import Carousel from "../components/Carousel";
+import MovieCard from "../components/MovieCard";
+
+import { fetchRecommendMovies, fetchPopularMovies } from "../../utils/api";
 
 const Movies = () => {
+    const [recommendMovies, setRecommendMovies] = useState([]);
+    const [popularMovies, setPopularMovies] = useState([]);
+
+    useEffect(() => {
+        const loadData = async () => {
+            try {
+                const rcmMovies = await fetchRecommendMovies();
+                setRecommendMovies(rcmMovies);
+
+                const movies = await fetchPopularMovies();
+                setPopularMovies(movies);
+            } catch (error) {
+                console.error("Failed to load data: ", error);
+            }
+        };
+
+        loadData();
+    }, []);
+
+    const renderMovieItem = ({ item }) => (
+        <MovieCard
+            movie={item}
+            onPress={() => {
+                console.log(`Pressed ${item.title} Card`);
+            }}
+        />
+    );
+
     return (
-        <View style={styles.container}>
-            <Text style={styles.container}>Movies Screen</Text>
-        </View>
+        <ScrollView style={styles.container}>
+            <Text style={styles.headerText}>Movies</Text>
+
+            <Text style={styles.sectionText}>Recommend Movies</Text>
+            <Carousel data={recommendMovies} renderItem={renderMovieItem} />
+
+            <Text style={styles.sectionText}>Popular Movies</Text>
+            <Carousel data={popularMovies} renderItem={renderMovieItem} />
+        </ScrollView>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#fff",
-        alignItems: "center",
-        justifyContent: "center",
+        padding: 16,
+        backgroundColor: "#ffffff",
+    },
+    headerText: {
+        fontSize: 24,
+        fontWeight: "bold",
+        marginTop: 20,
+        marginBottom: 20,
+    },
+    sectionText: {
+        fontSize: 20,
+        fontWeight: "bold",
+        marginTop: 20,
+        marginBottom: 10,
+        textAlign: "left",
     },
 });
 

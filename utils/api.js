@@ -17,7 +17,7 @@ export const fetchPopularMovies = async () => {
         console.log("Popular Movies: ", response.data.results);
         return response.data.results;
     } catch (error) {
-        console.error("Error fetching Popular Movies: ", error);
+        console.error("Error Fetching Popular Movies: ", error);
         return [];
     }
 };
@@ -28,7 +28,31 @@ export const fetchPopularTVShows = async () => {
         const response = await api.get("/tv/popular");
         return response.data.results;
     } catch (error) {
-        console.error("Error fetching Popular TVShows: ", error);
+        console.error("Error Fetching Popular TVShows: ", error);
+        return [];
+    }
+};
+
+// Fetching Recommend Movies
+export const fetchRecommendMovies = async () => {
+    try {
+        const response = await api.get("/movie/top_rated");
+        console.log("Popular Movies: ", response.data.results);
+        return response.data.results;
+    } catch (error) {
+        console.error("Error Fetching Recommend Movies: ", error);
+        return [];
+    }
+};
+
+// Fetching Recommend TVShows
+export const fetchRecommendTVShows = async () => {
+    try {
+        const response = await api.get("/tv/top_rated");
+        console.log("Popular Movies: ", response.data.results);
+        return response.data.results;
+    } catch (error) {
+        console.error("Error Fetching Recommend TVShows: ", error);
         return [];
     }
 };

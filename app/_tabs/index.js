@@ -15,12 +15,14 @@ const Home = () => {
             try {
                 const movies = await fetchPopularMovies();
                 setPopularMovies(movies);
+
                 const shows = await fetchPopularTVShows();
                 setPopularTVShows(shows);
             } catch (error) {
                 console.error("Failed to load data: ", error);
             }
         };
+
         loadData();
     }, []);
 
