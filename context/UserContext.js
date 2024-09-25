@@ -10,20 +10,24 @@ export const UserProvider = ({ children }) => {
 
     useEffect(() => {
         const loadData = async () => {
-            const storageUsername = await AsyncStorage.getItem("username");
-            const watchedData = await AsyncStorage.getItem("watched");
-            const toWatchData = await AsyncStorage.getItem("toWatch");
+            try {
+                const [storageUsername, watchedData, toWatchData] = await Promise.all([
+                    AsyncStorage.getItem("username"),
+                    AsyncStorage.getItem("watched"),
+                    AsyncStorage.getItem("toWatch"),
+                ]);
 
-            if (storageUsername) {
-                setUsername(JSON.parse(storageUsername));
-            }
-
-            if (watchedData) {
-                setWatched(JSON.parse(watchedData));
-            }
-
-            if (toWatchData) {
-                setToWatch(JSON.parse(toWatchData));
+                if (storageUsername) {
+                    setUsername(JSON.parse(storageUsername));
+                }
+                if (watchedData) {
+                    setWatched(JSON.parse(watchedData));
+                }
+                if (toWatchData) {
+                    setToWatch(JSON.parse(toWatchData));
+                }
+            } catch (error) {
+                console.error("Failed to load data from AsyncStorage", error);
             }
         };
 
@@ -31,12 +35,31 @@ export const UserProvider = ({ children }) => {
     }, []);
 
     const updateUsername = async (newUsername) => {
-        setUsername(newUsername);
-        await AsyncStorage.setItem("username", newUsername);
+        try {
+            await AsyncStorage.setItem("username", JSON.stringify(newUsername));
+
+            setUsername(newUsername);
+        } catch (error) {
+            console.error("Failed to update username in AsyncStorage", error);
+        }
+    };
+
+    const clearAsyncStorage = async () => {
+        try {
+            await AsyncStorage.clear();
+
+            setUsername("User");
+            setWatched([]);
+            setToWatch([]);
+        } catch (error) {
+            console.error("Failed to clear AsyncStorage", error);
+        }
     };
 
     return (
-        <UserContext.Provider value={{ username, updateUsername, watched, toWatch, setWatched, setToWatch }}>
+        <UserContext.Provider
+            value={{ username, updateUsername, watched, setWatched, toWatch, setToWatch, clearAsyncStorage }}
+        >
             {children}
         </UserContext.Provider>
     );

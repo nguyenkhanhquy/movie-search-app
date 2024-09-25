@@ -20,6 +20,7 @@ import {
 
 const Detail = () => {
     const router = useRouter();
+
     const { movieId, tvShowId } = useLocalSearchParams();
     const isMovie = Boolean(movieId);
     const isTVShow = Boolean(tvShowId);
@@ -27,7 +28,7 @@ const Detail = () => {
     const [details, setDetails] = useState(null);
     const [trailerId, setTrailerId] = useState(null);
     const [similar, setSimilar] = useState([]);
-    const { watched, toWatch, setWatched, setToWatch } = useUser();
+    const { watched, setWatched, toWatch, setToWatch } = useUser();
 
     const [loading, setLoading] = useState(true);
 
