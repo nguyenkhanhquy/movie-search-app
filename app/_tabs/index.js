@@ -5,13 +5,16 @@ import { useRouter } from "expo-router";
 import Carousel from "../components/Carousel";
 import MovieCard from "../components/MovieCard";
 import TVShowCard from "../components/TVShowCard";
+import SearchBar from "../components/SearchBar";
 
-import { fetchPopularMovies, fetchPopularTVShows } from "../../utils/api";
+import { fetchPopularMovies, fetchPopularTVShows, fetchSearchResults } from "../../utils/api";
 
 const Home = () => {
     const router = useRouter();
     const [popularMovies, setPopularMovies] = useState([]);
     const [popularTVShows, setPopularTVShows] = useState([]);
+    const [searchQuery, setSearchQuery] = useState("");
+    const [suggestions, setSuggestions] = useState([]);
 
     useEffect(() => {
         const loadData = async () => {
@@ -29,6 +32,28 @@ const Home = () => {
         loadData();
     }, []);
 
+    const handleQueryChange = async (query) => {
+        setSearchQuery(query);
+
+        if (query.length > 2) {
+            try {
+                const results = await fetchSearchResults(query);
+                setSuggestions(results);
+            } catch (error) {
+                console.error("Failed to load search suggestions: ", error);
+            }
+        } else {
+            setSuggestions([]);
+        }
+    };
+
+    const handleQuerySubmit = (event) => {
+        const query = event.nativeEvent.text.trim();
+        if (query.length > 0) {
+            router.push(`/search?query=${encodeURIComponent(query)}`);
+        }
+    };
+
     const renderMovieItem = ({ item }) => (
         <MovieCard movie={item} onPress={() => router.push(`/detail?movieId=${item.id}`)} />
     );
@@ -40,6 +65,13 @@ const Home = () => {
     return (
         <ScrollView style={styles.container}>
             <Text style={styles.headerText}>Movie Search App</Text>
+
+            <SearchBar
+                query={searchQuery}
+                onQueryChange={handleQueryChange}
+                onQuerySubmit={handleQuerySubmit}
+                suggestions={suggestions}
+            />
 
             <Text style={styles.sectionText}>Popular Movies</Text>
             <Carousel data={popularMovies} renderItem={renderMovieItem} />
