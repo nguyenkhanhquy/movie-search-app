@@ -10,6 +10,21 @@ const api = axios.create({
     },
 });
 
+// Fetching Search Results
+export const fetchSearchResults = async (query) => {
+    try {
+        const response = await api.get("/search/multi", {
+            params: {
+                query: query,
+            },
+        });
+        return response.data.results;
+    } catch (error) {
+        console.error("Error Fetching Search Results: ", error);
+        return [];
+    }
+};
+
 // Fetching Popular Movies
 export const fetchPopularMovies = async () => {
     try {
