@@ -5,7 +5,8 @@ import { useUser } from "../../context/UserContext";
 import MovieCard from "../components/MovieCard";
 import TVShowCard from "../components/TVShowCard";
 import Carousel from "../components/Carousel";
-import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialIcons, Feather } from "@expo/vector-icons";
+import { useTheme } from "../../context/ThemeContext";
 
 const User = () => {
     const router = useRouter();
@@ -13,6 +14,7 @@ const User = () => {
     const { username, updateUsername, watched, setWatched, toWatch, setToWatch, clearAsyncStorage } = useUser();
     const [isEditing, setIsEditing] = useState(false);
     const [newUsername, setNewUsername] = useState(username);
+    const { theme, toggleTheme } = useTheme();
 
     const handleEditPress = () => {
         setIsEditing(true);
@@ -56,18 +58,30 @@ const User = () => {
                 <View style={styles.cardActions}>
                     {isWatched && !isToWatch && (
                         <TouchableOpacity onPress={() => handleAddToToWatch(item)}>
-                            <MaterialIcons name="playlist-add" size={28} color="black" />
+                            <MaterialIcons
+                                name="playlist-add"
+                                size={28}
+                                color={theme === "dark" ? "#FFFFFF" : "#000000"}
+                            />
                         </TouchableOpacity>
                     )}
                     {isToWatch && !isWatched && (
                         <TouchableOpacity onPress={() => handleAddToWatched(item)}>
-                            <MaterialIcons name="done-outline" size={28} color="black" />
+                            <MaterialIcons
+                                name="done-outline"
+                                size={28}
+                                color={theme === "dark" ? "#FFFFFF" : "#000000"}
+                            />
                         </TouchableOpacity>
                     )}
                     <TouchableOpacity
                         onPress={() => (isWatched ? handleRemoveFromWatched(item) : handleRemoveFromToWatch(item))}
                     >
-                        <MaterialIcons name="remove-circle-outline" size={28} color="black" />
+                        <MaterialIcons
+                            name="remove-circle-outline"
+                            size={28}
+                            color={theme === "dark" ? "#FFFFFF" : "#000000"}
+                        />
                     </TouchableOpacity>
                 </View>
             </View>
@@ -75,39 +89,61 @@ const User = () => {
     };
 
     return (
-        <ScrollView style={styles.container}>
+        <ScrollView style={[styles.container, { backgroundColor: theme === "dark" ? "black" : "white" }]}>
             <View style={styles.topPadding}>
                 <View style={styles.header}>
                     <View style={styles.headerLeft}>
                         {isEditing ? (
                             <TextInput
-                                style={styles.usernameInput}
+                                style={[styles.usernameInput, { color: theme === "dark" ? "#FFFFFF" : "#000000" }]}
                                 value={newUsername}
                                 onChangeText={setNewUsername}
                                 onSubmitEditing={handleSavePress}
                                 returnKeyType="done"
                             />
                         ) : (
-                            <Text style={styles.username}>Hi, {username}!</Text>
+                            <Text style={[styles.username, { color: theme === "dark" ? "#FFFFFF" : "#000000" }]}>
+                                Hi, {username}!
+                            </Text>
                         )}
 
                         <TouchableOpacity onPress={isEditing ? handleSavePress : handleEditPress}>
-                            <MaterialIcons name={isEditing ? "check" : "edit"} size={28} color="black" />
+                            <MaterialIcons
+                                name={isEditing ? "check" : "edit"}
+                                size={28}
+                                color={theme === "dark" ? "#FFFFFF" : "#000000"}
+                            />
                         </TouchableOpacity>
                     </View>
+
+                    <TouchableOpacity onPress={toggleTheme} style={styles.themeButton}>
+                        <Feather
+                            name={theme === "dark" ? "sun" : "moon"}
+                            size={28}
+                            color={theme === "dark" ? "#FFFFFF" : "#000000"}
+                        />
+                    </TouchableOpacity>
                 </View>
-                <Text style={styles.sectionTitle}>Watched Movies and TV Shows</Text>
+                <Text style={[styles.sectionTitle, { color: theme === "dark" ? "#FFFFFF" : "#000000" }]}>
+                    Watched Movies and TV Shows
+                </Text>
                 {watched.length > 0 ? (
                     <Carousel data={watched} renderItem={({ item }) => renderItems(item, "watched")} />
                 ) : (
-                    <Text style={styles.noItemsText}>No items in this list</Text>
+                    <Text style={[styles.noItemsText, { color: theme === "dark" ? "#FFFFFF" : "#000000" }]}>
+                        No items in this list
+                    </Text>
                 )}
 
-                <Text style={styles.sectionTitle}>To Watch Movies and TV Shows</Text>
+                <Text style={[styles.sectionTitle, , { color: theme === "dark" ? "#FFFFFF" : "#000000" }]}>
+                    To Watch Movies and TV Shows
+                </Text>
                 {toWatch.length > 0 ? (
                     <Carousel data={toWatch} renderItem={({ item }) => renderItems(item, "toWatch")} />
                 ) : (
-                    <Text style={styles.noItemsText}>No items in this list</Text>
+                    <Text style={[styles.noItemsText, { color: theme === "dark" ? "#FFFFFF" : "#000000" }]}>
+                        No items in this list
+                    </Text>
                 )}
 
                 <TouchableOpacity style={styles.button} onPress={clearAsyncStorage}>
