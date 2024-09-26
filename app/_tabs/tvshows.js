@@ -55,12 +55,12 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 16,
-        backgroundColor: "#ffffff",
+        backgroundColor: "#FFFFFF",
     },
     headerText: {
-        fontSize: 24,
+        fontSize: 30,
         fontWeight: "bold",
-        marginTop: 20,
+        marginTop: 30,
         marginBottom: 20,
     },
     sectionText: {

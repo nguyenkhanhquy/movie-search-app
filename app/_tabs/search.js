@@ -61,7 +61,7 @@ const Search = () => {
     return (
         <ScrollView style={[styles.container, { backgroundColor: theme === "dark" ? "#000000" : "#FFFFFF" }]}>
             <Text style={[styles.headerText, { color: theme === "dark" ? "#FFFFFF" : "#000000" }]}>
-                Search Results for "{query}"
+                Search results for "{query}"
             </Text>
             <Carousel data={searchResults} renderItem={renderSearchResultItem} />
             {similarItems.length > 0 && (
@@ -83,14 +83,14 @@ const styles = StyleSheet.create({
         backgroundColor: "#ffffff",
     },
     headerText: {
-        fontSize: 24,
+        fontSize: 30,
         fontWeight: "bold",
         marginBottom: 20,
         marginTop: 20,
     },
     sectionText: {
-        fontSize: 18,
-        fontWeight: "500",
+        fontSize: 20,
+        fontWeight: "bold",
         marginTop: 20,
         marginBottom: 10,
         textAlign: "left",

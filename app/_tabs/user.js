@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     username: {
-        fontSize: 28,
+        fontSize: 30,
         fontWeight: "bold",
         marginRight: 8,
     },
@@ -191,7 +191,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     sectionTitle: {
-        fontSize: 18,
+        fontSize: 20,
         fontWeight: "bold",
         marginVertical: 8,
     },
