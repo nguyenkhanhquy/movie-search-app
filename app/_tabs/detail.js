@@ -91,8 +91,10 @@ const Detail = () => {
 
     if (!details) {
         return (
-            <View style={styles.container}>
-                <Text style={styles.text}>No Details Available</Text>
+            <View style={[styles.container, { backgroundColor: theme === "dark" ? "#000000" : "#FFFFFF" }]}>
+                <Text style={[styles.text, { color: theme === "dark" ? "#FFFFFF" : "#000000" }]}>
+                    No Details Available
+                </Text>
             </View>
         );
     }
@@ -111,7 +113,9 @@ const Detail = () => {
                     />
                 </View>
             ) : (
-                <Text style={styles.noTrailerText}>No Trailer Available</Text>
+                <Text style={[styles.noTrailerText, { color: theme === "dark" ? "#FFFFFF" : "#000000" }]}>
+                    No Trailer Available
+                </Text>
             )}
 
             <View style={styles.detailsContainer}>
