@@ -23,12 +23,16 @@ const SearchBar = ({ query, onQueryChange, onQuerySubmit, suggestions }) => {
                         <List.Item
                             key={index}
                             title={suggestion.title || suggestion.name}
+                            titleStyle={{ color: theme === "dark" ? "#FFFFFF" : "#000000" }}
                             onPress={() =>
                                 onQuerySubmit({
                                     nativeEvent: { text: suggestion.title || suggestion.name },
                                 })
                             }
-                            style={styles.suggestionItem}
+                            style={[
+                                styles.suggestionItem,
+                                { backgroundColor: theme === "dark" ? "#303030" : "#F5F5F5" },
+                            ]}
                         />
                     ))}
                 </View>
