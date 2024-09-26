@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Text, StyleSheet, ScrollView } from "react-native";
+import { useTheme } from "../../context/ThemeContext";
 
 import Carousel from "../components/Carousel";
 import MovieCard from "../components/MovieCard";
@@ -16,6 +17,7 @@ const Search = () => {
     const [searchResults, setSearchResults] = useState([]);
     const [similarItems, setSimilarItems] = useState([]);
     const [itemType, setItemType] = useState(null);
+    const { theme } = useTheme();
 
     useEffect(() => {
         const searchMoviesOrShows = async () => {
@@ -57,12 +59,16 @@ const Search = () => {
     };
 
     return (
-        <ScrollView style={styles.container}>
-            <Text style={styles.headerText}>Search Results for "{query}"</Text>
+        <ScrollView style={[styles.container, { backgroundColor: theme === "dark" ? "#000000" : "#FFFFFF" }]}>
+            <Text style={[styles.headerText, { color: theme === "dark" ? "#FFFFFF" : "#000000" }]}>
+                Search Results for "{query}"
+            </Text>
             <Carousel data={searchResults} renderItem={renderSearchResultItem} />
             {similarItems.length > 0 && (
                 <>
-                    <Text style={styles.sectionText}>Similar {itemType === "movie" ? "Movies" : "TV Shows"}</Text>
+                    <Text style={[styles.sectionText, { color: theme === "dark" ? "#FFFFFF" : "#000000" }]}>
+                        Similar {itemType === "movie" ? "Movies" : "TV Shows"}
+                    </Text>
                     <Carousel data={similarItems} renderItem={renderSimilarItem} />
                 </>
             )}
