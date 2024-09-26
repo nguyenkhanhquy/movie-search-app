@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Text, StyleSheet, ScrollView } from "react-native";
 import { useRouter } from "expo-router";
+import { useTheme } from "../../context/ThemeContext";
 
 import Carousel from "../components/Carousel";
 import MovieCard from "../components/MovieCard";
@@ -11,6 +12,7 @@ const Movies = () => {
     const router = useRouter();
     const [recommendMovies, setRecommendMovies] = useState([]);
     const [popularMovies, setPopularMovies] = useState([]);
+    const { theme } = useTheme();
 
     useEffect(() => {
         const loadData = async () => {
@@ -33,13 +35,17 @@ const Movies = () => {
     );
 
     return (
-        <ScrollView style={styles.container}>
-            <Text style={styles.headerText}>Movies</Text>
+        <ScrollView style={[styles.container, { backgroundColor: theme === "dark" ? "#000000" : "#FFFFFF" }]}>
+            <Text style={[styles.headerText, { color: theme === "dark" ? "#FFFFFF" : "#000000" }]}>Movies</Text>
 
-            <Text style={styles.sectionText}>Recommend Movies</Text>
+            <Text style={[styles.sectionText, { color: theme === "dark" ? "#FFFFFF" : "#000000" }]}>
+                Recommend Movies
+            </Text>
             <Carousel data={recommendMovies} renderItem={renderMovieItem} />
 
-            <Text style={styles.sectionText}>Popular Movies</Text>
+            <Text style={[styles.sectionText, { color: theme === "dark" ? "#FFFFFF" : "#000000" }]}>
+                Popular Movies
+            </Text>
             <Carousel data={popularMovies} renderItem={renderMovieItem} />
         </ScrollView>
     );
