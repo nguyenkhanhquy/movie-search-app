@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, ScrollView, ActivityIndicator, TouchableOpacity } from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { WebView } from "react-native-webview";
+import { MaterialIcons } from "@expo/vector-icons";
+import { useTheme } from "../../context/ThemeContext";
 
 import MovieCard from "../components/MovieCard";
 import TVShowCard from "../components/TVShowCard";
@@ -29,6 +31,7 @@ const Detail = () => {
     const [trailerId, setTrailerId] = useState(null);
     const [similar, setSimilar] = useState([]);
     const { watched, setWatched, toWatch, setToWatch } = useUser();
+    const { theme } = useTheme();
 
     const [loading, setLoading] = useState(true);
 
@@ -95,7 +98,7 @@ const Detail = () => {
     }
 
     return (
-        <ScrollView style={styles.container}>
+        <ScrollView style={[styles.container, { backgroundColor: theme === "dark" ? "#000000" : "#FFFFFF" }]}>
             {trailerId ? (
                 <View style={styles.videoContainer}>
                     <WebView
@@ -112,39 +115,73 @@ const Detail = () => {
             )}
 
             <View style={styles.detailsContainer}>
-                <Text style={styles.title}>{details.title || details.name}</Text>
-                <Text style={styles.sectionTitle}>Overview</Text>
-                <Text style={styles.text}>{details.overview}</Text>
-                <Text style={styles.sectionTitle}>Rating</Text>
-                <Text style={styles.text}>{details.vote_average}</Text>
-                <Text style={styles.sectionTitle}>Release Date</Text>
-                <Text style={styles.text}>{details.release_date || details.first_air_date}</Text>
-                <Text style={styles.sectionTitle}>Runtime</Text>
-                <Text style={styles.text}>{details.runtime ? `${details.runtime} minutes` : "N/A"}</Text>
-                <Text style={styles.sectionTitle}>Genres</Text>
-                <Text style={styles.text}>{details.genres?.map((genre) => genre.name).join(", ")}</Text>
-                <Text style={styles.sectionTitle}>Production Companies</Text>
-                <Text style={styles.text}>
+                <Text style={[styles.title, { color: theme === "dark" ? "#FFFFFF" : "#000000" }]}>
+                    {details.title || details.name}
+                </Text>
+                <Text style={[styles.sectionTitle, { color: theme === "dark" ? "#FFFFFF" : "#000000" }]}>Overview</Text>
+                <Text style={[styles.text, { color: theme === "dark" ? "#FFFFFF" : "#000000" }]}>
+                    {details.overview}
+                </Text>
+                <Text style={[styles.sectionTitle, { color: theme === "dark" ? "#FFFFFF" : "#000000" }]}>Rating</Text>
+                <Text style={[styles.text, { color: theme === "dark" ? "#FFFFFF" : "#000000" }]}>
+                    {details.vote_average}
+                </Text>
+                <Text style={[styles.sectionTitle, { color: theme === "dark" ? "#FFFFFF" : "#000000" }]}>
+                    Release Date
+                </Text>
+                <Text style={[styles.text, { color: theme === "dark" ? "#FFFFFF" : "#000000" }]}>
+                    {details.release_date || details.first_air_date}
+                </Text>
+                <Text style={[styles.sectionTitle, { color: theme === "dark" ? "#FFFFFF" : "#000000" }]}>Runtime</Text>
+                <Text style={[styles.text, { color: theme === "dark" ? "#FFFFFF" : "#000000" }]}>
+                    {details.runtime ? `${details.runtime} minutes` : "N/A"}
+                </Text>
+                <Text style={[styles.sectionTitle, { color: theme === "dark" ? "#FFFFFF" : "#000000" }]}>Genres</Text>
+                <Text style={[styles.text, { color: theme === "dark" ? "#FFFFFF" : "#000000" }]}>
+                    {details.genres?.map((genre) => genre.name).join(", ")}
+                </Text>
+                <Text style={[styles.sectionTitle, { color: theme === "dark" ? "#FFFFFF" : "#000000" }]}>
+                    Production Companies
+                </Text>
+                <Text style={[styles.text, { color: theme === "dark" ? "#FFFFFF" : "#000000" }]}>
                     {details.production_companies?.map((company) => company.name).join(", ") || "N/A"}
                 </Text>
-                <Text style={styles.sectionTitle}>Budget</Text>
-                <Text style={styles.text}>{details.budget ? `$${details.budget.toLocaleString()}` : "N/A"}</Text>
-                <Text style={styles.sectionTitle}>Revenue</Text>
-                <Text style={styles.text}>{details.revenue ? `$${details.revenue.toLocaleString()}` : "N/A"}</Text>
+                <Text style={[styles.sectionTitle, { color: theme === "dark" ? "#FFFFFF" : "#000000" }]}>Budget</Text>
+                <Text style={[styles.text, { color: theme === "dark" ? "#FFFFFF" : "#000000" }]}>
+                    {details.budget ? `$${details.budget.toLocaleString()}` : "N/A"}
+                </Text>
+                <Text style={[styles.sectionTitle, { color: theme === "dark" ? "#FFFFFF" : "#000000" }]}>Revenue</Text>
+                <Text style={[styles.text, { color: theme === "dark" ? "#FFFFFF" : "#000000" }]}>
+                    {details.revenue ? `$${details.revenue.toLocaleString()}` : "N/A"}
+                </Text>
             </View>
 
             <View style={styles.buttonContainer}>
-                <TouchableOpacity style={styles.button} onPress={handleMarkAsWatched}>
-                    <Text style={styles.buttonText}>Mark As Watched</Text>
+                <TouchableOpacity
+                    style={[styles.button, { backgroundColor: theme === "dark" ? "#303030" : "#F5F5F5" }]}
+                    onPress={handleMarkAsWatched}
+                >
+                    <Text style={[styles.buttonText, { color: theme === "dark" ? "#E0E0E0" : "#000000" }]}>
+                        Mark As Watched
+                    </Text>
+                    <MaterialIcons name="done-outline" size={28} color={theme === "dark" ? "#E0E0E0" : "#000000"} />
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.button} onPress={handleMarkAsToWatch}>
-                    <Text style={styles.buttonText}>Mark As To Watch</Text>
+                <TouchableOpacity
+                    style={[styles.button, { backgroundColor: theme === "dark" ? "#303030" : "#F5F5F5" }]}
+                    onPress={handleMarkAsToWatch}
+                >
+                    <Text style={[styles.buttonText, { color: theme === "dark" ? "#E0E0E0" : "#000000" }]}>
+                        Mark As To Watch
+                    </Text>
+                    <MaterialIcons name="playlist-add" size={28} color={theme === "dark" ? "#E0E0E0" : "#000000"} />
                 </TouchableOpacity>
             </View>
 
             <View style={styles.similarContainer}>
-                <Text style={styles.similarTitle}>Similar {isMovie ? "Movies" : "TV Shows"}</Text>
+                <Text style={[styles.similarTitle, { color: theme === "dark" ? "#FFFFFF" : "#000000" }]}>
+                    Similar {isMovie ? "Movies" : "TV Shows"}
+                </Text>
                 <Carousel
                     data={similar}
                     renderItem={({ item }) =>
@@ -182,12 +219,12 @@ const styles = StyleSheet.create({
         padding: 16,
     },
     title: {
-        fontSize: 24,
+        fontSize: 30,
         fontWeight: "bold",
         marginBottom: 8,
     },
     sectionTitle: {
-        fontSize: 18,
+        fontSize: 20,
         fontWeight: "bold",
         marginTop: 16,
         marginBottom: 8,
@@ -212,6 +249,12 @@ const styles = StyleSheet.create({
         paddingVertical: 12,
         marginHorizontal: 8,
         alignItems: "center",
+        backgroundColor: "#F5F5F5",
+        shadowColor: "#000000",
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.2,
+        shadowRadius: 2,
+        elevation: 4,
     },
     buttonText: {
         fontSize: 16,
