@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Text, StyleSheet, ScrollView } from "react-native";
 import { useRouter } from "expo-router";
+import { useTheme } from "../../context/ThemeContext";
 
 import Carousel from "../components/Carousel";
 import TVShowCard from "../components/TVShowCard";
@@ -11,6 +12,7 @@ const TVshows = () => {
     const router = useRouter();
     const [recommendTVShows, setRecommendTVShows] = useState([]);
     const [popularTVShows, setPopularTVShows] = useState([]);
+    const { theme } = useTheme();
 
     useEffect(() => {
         const loadData = async () => {
@@ -33,13 +35,17 @@ const TVshows = () => {
     );
 
     return (
-        <ScrollView style={styles.container}>
-            <Text style={styles.headerText}>TV Shows</Text>
+        <ScrollView style={[styles.container, { backgroundColor: theme === "dark" ? "#000000" : "#FFFFFF" }]}>
+            <Text style={[styles.headerText, { color: theme === "dark" ? "#FFFFFF" : "#000000" }]}>TV Shows</Text>
 
-            <Text style={styles.sectionText}>Recommend TV Shows</Text>
+            <Text style={[styles.sectionText, { color: theme === "dark" ? "#FFFFFF" : "#000000" }]}>
+                Recommend TV Shows
+            </Text>
             <Carousel data={recommendTVShows} renderItem={renderShowItem} />
 
-            <Text style={styles.sectionText}>Popular TV Shows</Text>
+            <Text style={[styles.sectionText, { color: theme === "dark" ? "#FFFFFF" : "#000000" }]}>
+                Popular TV Shows
+            </Text>
             <Carousel data={popularTVShows} renderItem={renderShowItem} />
         </ScrollView>
     );
