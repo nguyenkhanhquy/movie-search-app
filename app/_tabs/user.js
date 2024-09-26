@@ -89,7 +89,7 @@ const User = () => {
     };
 
     return (
-        <ScrollView style={[styles.container, { backgroundColor: theme === "dark" ? "black" : "white" }]}>
+        <ScrollView style={[styles.container, { backgroundColor: theme === "dark" ? "#000000" : "#FFFFFF" }]}>
             <View style={styles.topPadding}>
                 <View style={styles.header}>
                     <View style={styles.headerLeft}>
@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     username: {
-        fontSize: 32,
+        fontSize: 28,
         fontWeight: "bold",
         marginRight: 8,
     },
