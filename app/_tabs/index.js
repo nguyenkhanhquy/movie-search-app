@@ -37,7 +37,7 @@ const Home = () => {
     const handleQueryChange = async (query) => {
         setSearchQuery(query);
 
-        if (query.length > 2) {
+        if (query.length > 1) {
             try {
                 const results = await fetchSearchResults(query);
                 setSuggestions(results);

@@ -38,6 +38,7 @@ const Detail = () => {
     useEffect(() => {
         const loadData = async () => {
             try {
+                setLoading(true);
                 if (isMovie) {
                     const movie = await fetchMovieDetails(movieId);
                     setDetails(movie);
@@ -86,7 +87,13 @@ const Detail = () => {
     };
 
     if (loading) {
-        return <ActivityIndicator size="large" style={styles.loadingContainer} />;
+        return (
+            <ActivityIndicator
+                size="large"
+                color={theme === "dark" ? "#BB86FC" : "#6200EE"}
+                style={[styles.loadingContainer, { backgroundColor: theme === "dark" ? "#000000" : "#FFFFFF" }]}
+            />
+        );
     }
 
     if (!details) {
