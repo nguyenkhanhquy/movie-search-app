@@ -29,17 +29,17 @@ const User = () => {
     const handleAddToWatched = async (item) => {
         const newWatched = [...watched, item];
         setWatched(newWatched);
-        await AsyncStorage.setItem("watched", JSON.stringify(newWatched));
-
         handleRemoveFromToWatch(item);
+
+        await AsyncStorage.setItem("watched", JSON.stringify(newWatched));
     };
 
     const handleAddToToWatch = async (item) => {
         const newToWatch = [...toWatch, item];
         setToWatch(newToWatch);
-        await AsyncStorage.setItem("toWatch", JSON.stringify(newToWatch));
-
         handleRemoveFromWatched(item);
+
+        await AsyncStorage.setItem("toWatch", JSON.stringify(newToWatch));
     };
 
     const handleRemoveFromWatched = async (item) => {
