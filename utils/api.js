@@ -8,6 +8,7 @@ const api = axios.create({
     params: {
         api_key: API_KEY,
     },
+    timeout: 5000,
 });
 
 // Fetching Search Results
