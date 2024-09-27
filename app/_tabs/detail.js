@@ -222,6 +222,9 @@ const styles = StyleSheet.create({
         height: 200,
         marginBottom: 16,
         marginTop: 45,
+        borderRadius: 8,
+        overflow: "hidden",
+        elevation: 4,
     },
     video: {
         flex: 1,
@@ -246,6 +249,7 @@ const styles = StyleSheet.create({
     },
     noTrailerText: {
         fontSize: 16,
+        fontWeight: "bold",
         textAlign: "center",
         marginVertical: 16,
     },
@@ -262,9 +266,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
         backgroundColor: "#F5F5F5",
         shadowColor: "#000000",
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.2,
-        shadowRadius: 2,
         elevation: 4,
     },
     buttonText: {

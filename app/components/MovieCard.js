@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     shadowContainer: {
         borderRadius: 8,
         overflow: "hidden",
-        elevation: 3,
+        elevation: 4,
     },
     card: {
         flex: 1,
