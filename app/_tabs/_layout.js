@@ -1,12 +1,10 @@
 import React from "react";
 import { Tabs } from "expo-router";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { useTheme as usePaperTheme } from "react-native-paper";
 import { useTheme } from "../../context/ThemeContext";
 
 const Layout = () => {
     const { theme } = useTheme();
-    const paperTheme = usePaperTheme();
 
     return (
         <Tabs
@@ -23,6 +21,10 @@ const Layout = () => {
                         iconName = "television";
                     } else if (route.name === "user") {
                         iconName = "account";
+                    } else if (route.name === "search") {
+                        iconName = "magnify";
+                    } else if (route.name === "settings") {
+                        iconName = "cog";
                     }
 
                     return <MaterialCommunityIcons name={iconName} size={28} color={color} />;
@@ -40,7 +42,8 @@ const Layout = () => {
             <Tabs.Screen name="tvshows" options={{ title: "TVShows" }} />
             <Tabs.Screen name="user" options={{ title: "Profile" }} />
             <Tabs.Screen name="detail" options={{ title: "Details", tabBarButton: () => null }} />
-            <Tabs.Screen name="search" options={{ title: "search", tabBarButton: () => null }} />
+            <Tabs.Screen name="search" options={{ title: "Search", tabBarButton: () => null }} />
+            <Tabs.Screen name="settings" options={{ title: "Settings" }} />
         </Tabs>
     );
 };

@@ -156,10 +156,6 @@ const User = () => {
                         No items in this list
                     </Text>
                 )}
-
-                <TouchableOpacity style={styles.button} onPress={clearAsyncStorage}>
-                    <Text>Clear All Data</Text>
-                </TouchableOpacity>
             </View>
         </ScrollView>
     );
@@ -169,12 +165,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 16,
-    },
-    button: {
-        backgroundColor: "gray",
-        paddingVertical: 12,
-        paddingHorizontal: 24,
-        borderRadius: 8,
     },
     topPadding: {
         paddingTop: 20,
