@@ -7,6 +7,7 @@ import TVShowCard from "../components/TVShowCard";
 import Carousel from "../components/Carousel";
 import { MaterialIcons, Feather } from "@expo/vector-icons";
 import { useTheme } from "../../context/ThemeContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const User = () => {
     const router = useRouter();
@@ -26,21 +27,31 @@ const User = () => {
     };
 
     const handleAddToWatched = async (item) => {
-        setWatched((prev) => [...prev, item]);
-        setToWatch((prev) => prev.filter((i) => i.id !== item.id));
+        const newWatched = [...watched, item];
+        setWatched(newWatched);
+        await AsyncStorage.setItem("watched", JSON.stringify(newWatched));
+
+        handleRemoveFromToWatch(item);
     };
 
     const handleAddToToWatch = async (item) => {
-        setToWatch((prev) => [...prev, item]);
-        setWatched((prev) => prev.filter((i) => i.id !== item.id));
+        const newToWatch = [...toWatch, item];
+        setToWatch(newToWatch);
+        await AsyncStorage.setItem("toWatch", JSON.stringify(newToWatch));
+
+        handleRemoveFromWatched(item);
     };
 
     const handleRemoveFromWatched = async (item) => {
-        setWatched((prev) => prev.filter((i) => i.id !== item.id));
+        const newWatched = watched.filter((i) => i.id !== item.id);
+        setWatched(newWatched);
+        await AsyncStorage.setItem("watched", JSON.stringify(newWatched));
     };
 
     const handleRemoveFromToWatch = async (item) => {
-        setToWatch((prev) => prev.filter((i) => i.id !== item.id));
+        const newToWatch = toWatch.filter((i) => i.id !== item.id);
+        setToWatch(newToWatch);
+        await AsyncStorage.setItem("toWatch", JSON.stringify(newToWatch));
     };
 
     const renderItems = (item, listType) => {
